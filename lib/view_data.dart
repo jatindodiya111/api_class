@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:api_class/myclass.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
+import 'package:getwidget/components/rating/gf_rating.dart';
+import 'package:getwidget/types/gf_button_type.dart';
 import 'package:http/http.dart' as http;
 
 class view_data extends StatefulWidget {
@@ -16,6 +19,8 @@ class _view_dataState extends State<view_data> {
 
   @override
   Widget build(BuildContext context) {
+    final _ratingController = TextEditingController();
+    //double _userRating = 4.5;
     myclass ma = ModalRoute.of(context)!.settings.arguments as myclass;
     Future getdata()
     async {
@@ -25,7 +30,9 @@ class _view_dataState extends State<view_data> {
       print('Response body: ${response.body}');
       Map m = jsonDecode(response.body);
       List l = m['id'];
+
       return m;
+
     }
     return Scaffold(
       appBar: AppBar(
@@ -36,10 +43,9 @@ class _view_dataState extends State<view_data> {
         if(snapshot.connectionState==ConnectionState.done)
           {
 
-                  // Map m = snapshot.data;
-                  // myclass d = myclass.fromJson(m);
                   List l = ma.images!;
-                   return Column(children: [
+                  double _userRating = ma.rating;
+                  return Column(children: [
                      GFCarousel(
                        items: l.map(
                              (url) {
@@ -50,7 +56,7 @@ class _view_dataState extends State<view_data> {
                                child: Image.network(
                                    url,
                                    fit: BoxFit.cover,
-                                   width: 1000.0
+                                   width: 2000.0
                                ),
                              ),
                            );
@@ -61,11 +67,19 @@ class _view_dataState extends State<view_data> {
                        },
                      ),
                      // Container(child: ,),
+
                      Text("${ma.title}"),
                      Text("${ma.description}"),
                      Text("${ma.brand}"),
                      Text("${ma.price}"),
                      Text("${ma.stock}"),
+                     GFRating(
+                       value: _userRating,
+                       showTextForm: true,
+                       controller: _ratingController, onChanged: (double rating) {
+
+                     },
+                     ),
 
                    ],);
           }
