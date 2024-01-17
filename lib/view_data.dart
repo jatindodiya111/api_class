@@ -30,9 +30,7 @@ class _view_dataState extends State<view_data> {
       print('Response body: ${response.body}');
       Map m = jsonDecode(response.body);
       List l = m['id'];
-
       return m;
-
     }
     return Scaffold(
       appBar: AppBar(
@@ -50,13 +48,13 @@ class _view_dataState extends State<view_data> {
                        items: l.map(
                              (url) {
                            return Container(
-                             margin: EdgeInsets.all(8.0),
+                             margin: EdgeInsets.all(12.0),
                              child: ClipRRect(
                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                               child: Image.network(
-                                   url,
+                               child: Image.network(url,
                                    fit: BoxFit.cover,
-                                   width: 2000.0
+                                   width: 2000.0,
+                                 height: 5000.0,
                                ),
                              ),
                            );
@@ -67,17 +65,23 @@ class _view_dataState extends State<view_data> {
                        },
                      ),
                      // Container(child: ,),
-
+                     SizedBox(height: 10,),
                      Text("${ma.title}"),
-                     Text("${ma.description}"),
+                    Text("${ma.title}",
+                      style:
+                      TextStyle(fontWeight: FontWeight.w500, fontSize: 19.0),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0),
+                      child: Text("${ma.description}",style: TextStyle(fontSize: 15),),
+                    ),
+                     //Text("${ma.description}"),
                      Text("${ma.brand}"),
                      Text("${ma.price}"),
                      Text("${ma.stock}"),
                      GFRating(
                        value: _userRating,
-                       showTextForm: true,
                        controller: _ratingController, onChanged: (double rating) {
-
                      },
                      ),
 
